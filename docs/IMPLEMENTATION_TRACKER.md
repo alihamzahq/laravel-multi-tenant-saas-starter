@@ -15,9 +15,9 @@
 | Phase 2.4 | Admin Dashboard | Completed | feature/central-admin-app |
 | Phase 2.5 | Tenant Management CRUD | Completed | feature/central-admin-app |
 | Phase 2.6 | Tenant Seeding on Creation | Completed | feature/central-admin-app |
-| Phase 3.1 | Tenant Database Migrations | Pending | - |
-| Phase 3.2 | Tenant Models | Pending | - |
-| Phase 3.3 | Tenant Authentication | Pending | - |
+| Phase 3.1 | Tenant Database Migrations | Completed | feature/tenant-app |
+| Phase 3.2 | Models Update | Completed | feature/tenant-app |
+| Phase 3.3 | Tenant Authentication | Pending | feature/tenant-app |
 | Phase 3.4 | Tenant Dashboard | Pending | - |
 | Phase 3.5 | Tenant User Management | Pending | - |
 | Phase 3.6 | Projects CRUD Module | Pending | - |
@@ -26,8 +26,8 @@
 
 ## Current Progress
 
-### Active Phase: Phase 3.1 (Tenant Database Migrations)
-### Last Completed: Phase 2.6 (Tenant Seeding on Creation)
+### Active Phase: Phase 3.3 (Tenant Authentication)
+### Last Completed: Phase 3.2 (Models Update)
 
 ---
 
@@ -216,46 +216,79 @@ feat(admin): implement tenant seeding on creation
 
 ---
 
-### Phase 3.1: Tenant Database Migrations
-**Status:** Pending
-**Branch:** -
-**Files to Create:**
-- `database/migrations/tenant/0001_01_01_000000_create_users_table.php`
-- `database/migrations/tenant/0001_01_01_000001_create_cache_table.php`
-- `database/migrations/tenant/0001_01_01_000002_create_projects_table.php`
+## Phase 3 Architecture Decisions
 
-**Summary:** -
-**Commit Message:** -
+> **Single User Model:** Use existing `app/Models/User.php` for both central and tenant (Stancl handles DB switching)
+> **Single Models Directory:** All models in `app/Models/` (no `Tenant/` subdirectory)
+> **React Structure:** Components shared in `Components/`, Pages separated in `Pages/Admin/` and `Pages/Tenant/`
 
 ---
 
-### Phase 3.2: Tenant Models
-**Status:** Pending
-**Branch:** -
-**Files to Create:**
-- `app/Models/Tenant/User.php`
-- `app/Models/Tenant/Project.php`
+### Phase 3.1: Tenant Database Migrations
+**Status:** Completed
+**Branch:** feature/tenant-app
+**Files Created:**
+- `database/migrations/tenant/0001_01_01_000001_create_projects_table.php`
 
-**Summary:** -
-**Commit Message:** -
+**Note:**
+- Users table migration already exists from Phase 2.6
+- Cache/Jobs tables NOT needed (using Redis with Stancl's bootstrappers)
+
+**Summary:** Created projects table migration for tenant databases. Table includes: id, name, description (nullable), status (enum: draft/active/completed/archived), created_by (foreign key to users), timestamps. Cache and jobs tables skipped since Redis will be used with Stancl's CacheTenancyBootstrapper and QueueTenancyBootstrapper.
+
+**Suggested Commit Message:**
+```
+feat(tenant): add projects table migration
+
+- Create projects table for tenant databases
+- Include status enum (draft, active, completed, archived)
+- Add foreign key constraint to users table (created_by)
+- Skip cache/jobs tables (using Redis with Stancl bootstrappers)
+```
+
+---
+
+### Phase 3.2: Models Update
+**Status:** Completed
+**Branch:** feature/tenant-app
+**Files Created:**
+- `app/Models/Project.php` (tenant-only model)
+
+**Files Modified:**
+- `app/Models/User.php` (add role support, projects relationship)
+
+**Summary:** Created Project model with fillable attributes (name, description, status, created_by), STATUSES constant, creator relationship, status scopes, and isEditableBy() authorization helper. Updated User model with ROLES constant, role in fillable, isTenantAdmin() method, hasRole() method, and projects() relationship.
+
+**Suggested Commit Message:**
+```
+feat(models): add Project model and update User with role support
+
+- Create Project model with status enum, creator relationship, and scopes
+- Add STATUSES constant for project status options
+- Add isEditableBy() method for authorization checks
+- Update User model with ROLES constant and role in fillable
+- Add isTenantAdmin() and hasRole() methods to User
+- Add projects() relationship to User model
+```
 
 ---
 
 ### Phase 3.3: Tenant Authentication
 **Status:** Pending
-**Branch:** -
+**Branch:** feature/tenant-app
 **Files to Create:**
 - `app/Http/Controllers/Tenant/Auth/AuthenticatedSessionController.php`
 - `app/Http/Controllers/Tenant/Auth/RegisteredUserController.php`
 - `app/Http/Controllers/Tenant/Auth/PasswordResetLinkController.php`
+- `app/Http/Controllers/Tenant/Auth/NewPasswordController.php`
 - `resources/js/Layouts/TenantLayout.jsx`
 - `resources/js/Pages/Tenant/Auth/Login.jsx`
 - `resources/js/Pages/Tenant/Auth/Register.jsx`
 - `resources/js/Pages/Tenant/Auth/ForgotPassword.jsx`
+- `resources/js/Pages/Tenant/Auth/ResetPassword.jsx`
 
 **Files to Modify:**
 - `routes/tenant.php`
-- `app/Http/Middleware/HandleInertiaRequests.php`
 
 **Summary:** -
 **Commit Message:** -
@@ -264,14 +297,15 @@ feat(admin): implement tenant seeding on creation
 
 ### Phase 3.4: Tenant Dashboard
 **Status:** Pending
-**Branch:** -
+**Branch:** feature/tenant-app
 **Files to Create:**
 - `app/Http/Controllers/Tenant/DashboardController.php`
 - `resources/js/Pages/Tenant/Dashboard.jsx`
-- `resources/js/Components/Tenant/StatCard.jsx`
+- `resources/js/Components/StatCard.jsx` (shared component)
 
 **Files to Modify:**
 - `routes/tenant.php`
+- `app/Http/Middleware/HandleInertiaRequests.php` (share tenant data in tenant context)
 
 **Summary:** -
 **Commit Message:** -
@@ -280,17 +314,20 @@ feat(admin): implement tenant seeding on creation
 
 ### Phase 3.5: Tenant User Management
 **Status:** Pending
-**Branch:** -
+**Branch:** feature/tenant-app
 **Files to Create:**
 - `app/Http/Controllers/Tenant/UserController.php`
+- `app/Http/Middleware/EnsureTenantAdmin.php`
 - `app/Http/Requests/Tenant/StoreUserRequest.php`
 - `app/Http/Requests/Tenant/UpdateUserRequest.php`
 - `resources/js/Pages/Tenant/Users/Index.jsx`
 - `resources/js/Pages/Tenant/Users/Create.jsx`
 - `resources/js/Pages/Tenant/Users/Edit.jsx`
+- `resources/js/Pages/Tenant/Users/Show.jsx`
 
 **Files to Modify:**
 - `routes/tenant.php`
+- `bootstrap/app.php` (register 'tenant.admin' middleware alias)
 
 **Summary:** -
 **Commit Message:** -
@@ -299,7 +336,7 @@ feat(admin): implement tenant seeding on creation
 
 ### Phase 3.6: Projects CRUD Module
 **Status:** Pending
-**Branch:** -
+**Branch:** feature/tenant-app
 **Files to Create:**
 - `app/Http/Controllers/Tenant/ProjectController.php`
 - `app/Http/Requests/Tenant/StoreProjectRequest.php`
@@ -308,7 +345,7 @@ feat(admin): implement tenant seeding on creation
 - `resources/js/Pages/Tenant/Projects/Create.jsx`
 - `resources/js/Pages/Tenant/Projects/Edit.jsx`
 - `resources/js/Pages/Tenant/Projects/Show.jsx`
-- `resources/js/Components/Tenant/ProjectCard.jsx`
+- `resources/js/Components/StatusBadge.jsx` (shared component, extract from inline)
 
 **Files to Modify:**
 - `routes/tenant.php`
@@ -328,6 +365,8 @@ feat(admin): implement tenant seeding on creation
 | 2025-12-06 | Phase 2.4 | Completed admin dashboard with stats |
 | 2025-12-06 | Phase 2.5 | Completed tenant management CRUD |
 | 2025-12-06 | Phase 2.6 | Completed tenant seeding on creation |
+| 2025-12-07 | Phase 3.1 | Completed projects table migration (cache/jobs skipped - using Redis) |
+| 2025-12-07 | Phase 3.2 | Completed Project model and User model updates (role support) |
 
 ---
 
