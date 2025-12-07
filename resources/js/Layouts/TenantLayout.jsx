@@ -42,6 +42,12 @@ export default function TenantLayout({ header, children }) {
                                 >
                                     Projects
                                 </NavLink>
+                                <NavLink
+                                    href={route('tenant.users.index')}
+                                    active={route().current('tenant.users.*')}
+                                >
+                                    Users
+                                </NavLink>
                             </div>
                         </div>
 
@@ -151,6 +157,12 @@ export default function TenantLayout({ header, children }) {
                             active={route().current('tenant.projects.*')}
                         >
                             Projects
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('tenant.users.index')}
+                            active={route().current('tenant.users.*')}
+                        >
+                            Users
                         </ResponsiveNavLink>
                     </div>
 

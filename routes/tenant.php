@@ -7,6 +7,7 @@ use App\Http\Controllers\Tenant\Auth\NewPasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
 use App\Http\Controllers\Tenant\DashboardController;
+use App\Http\Controllers\Tenant\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -65,6 +66,19 @@ Route::middleware([
 
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('tenant.dashboard');
+
+        // Users - Index accessible to all, CRUD restricted to tenant admins
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('tenant.users.index');
+
+        Route::middleware('tenant.admin')->group(function () {
+            Route::post('/users', [UserController::class, 'store'])
+                ->name('tenant.users.store');
+            Route::put('/users/{user}', [UserController::class, 'update'])
+                ->name('tenant.users.update');
+            Route::delete('/users/{user}', [UserController::class, 'destroy'])
+                ->name('tenant.users.destroy');
+        });
 
         // Placeholder routes for navigation (will be implemented in next phases)
         Route::get('/projects', function () {

@@ -19,15 +19,15 @@
 | Phase 3.2 | Models Update | Completed | feature/tenant-app |
 | Phase 3.3 | Tenant Authentication | Completed | feature/tenant-app |
 | Phase 3.4 | Tenant Dashboard | Completed | feature/tenant-app |
-| Phase 3.5 | Tenant User Management | Pending | - |
+| Phase 3.5 | Tenant User Management | Completed | feature/tenant-app |
 | Phase 3.6 | Projects CRUD Module | Pending | - |
 
 ---
 
 ## Current Progress
 
-### Active Phase: Phase 3.5 (Tenant User Management)
-### Last Completed: Phase 3.4 (Tenant Dashboard)
+### Active Phase: Phase 3.6 (Projects CRUD Module)
+### Last Completed: Phase 3.5 (Tenant User Management)
 
 ---
 
@@ -352,24 +352,42 @@ feat(tenant): implement tenant dashboard with stats and recent projects
 ---
 
 ### Phase 3.5: Tenant User Management
-**Status:** Pending
+**Status:** Completed
 **Branch:** feature/tenant-app
-**Files to Create:**
+**Files Created:**
 - `app/Http/Controllers/Tenant/UserController.php`
 - `app/Http/Middleware/EnsureTenantAdmin.php`
 - `app/Http/Requests/Tenant/StoreUserRequest.php`
 - `app/Http/Requests/Tenant/UpdateUserRequest.php`
 - `resources/js/Pages/Tenant/Users/Index.jsx`
-- `resources/js/Pages/Tenant/Users/Create.jsx`
-- `resources/js/Pages/Tenant/Users/Edit.jsx`
-- `resources/js/Pages/Tenant/Users/Show.jsx`
+- `resources/js/Pages/Tenant/Users/UserForm.jsx`
 
-**Files to Modify:**
-- `routes/tenant.php`
-- `bootstrap/app.php` (register 'tenant.admin' middleware alias)
+**Files Modified:**
+- `routes/tenant.php` (user routes with tenant.admin middleware)
+- `bootstrap/app.php` (registered 'tenant.admin' middleware alias)
+- `resources/js/Components/Modal.jsx` (added title prop support)
+- `resources/js/Layouts/TenantLayout.jsx` (added Users nav link)
 
-**Summary:** -
-**Commit Message:** -
+**Summary:** Implemented tenant user management with modal-based create/edit forms. Created EnsureTenantAdmin middleware to restrict CRUD operations to admins only. All users can view the users list, but only admins can create/edit/delete. Used single UserForm component for both create and edit modes (per user preference). Added role badges and formatted date display.
+
+**Features:**
+- Users list with role badges (Admin/User)
+- Modal-based create/edit forms (single UserForm component)
+- Delete with browser confirmation
+- Role-based access control (tenant.admin middleware)
+- Password optional on edit (only updates if provided)
+- Self-deletion prevention
+
+**Routes Created:**
+- `GET /users` - List all users (all authenticated users)
+- `POST /users` - Create user (tenant admins only)
+- `PUT /users/{user}` - Update user (tenant admins only)
+- `DELETE /users/{user}` - Delete user (tenant admins only)
+
+**Suggested Commit Message:**
+```
+feat(tenant): implement user management with modal forms and role-based access
+```
 
 ---
 
@@ -408,6 +426,7 @@ feat(tenant): implement tenant dashboard with stats and recent projects
 | 2025-12-07 | Phase 3.2 | Completed Project model and User model updates (role support) |
 | 2025-12-07 | Phase 3.3 | Completed tenant authentication system (login, register, password reset) |
 | 2025-12-07 | Phase 3.4 | Completed tenant dashboard with stats and recent projects |
+| 2025-12-07 | Phase 3.5 | Completed tenant user management with modal forms |
 
 ---
 
