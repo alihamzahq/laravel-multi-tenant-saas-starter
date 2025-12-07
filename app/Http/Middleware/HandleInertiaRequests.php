@@ -31,7 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
+        $shared = [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
@@ -41,5 +41,15 @@ class HandleInertiaRequests extends Middleware
                 'domain' => config('app.domain'),
             ],
         ];
+
+        // Share tenant data when in tenant context
+        if (tenancy()->initialized && ($tenant = tenant())) {
+            $shared['tenant'] = [
+                'id' => $tenant->id,
+                'name' => $tenant->name,
+            ];
+        }
+
+        return $shared;
     }
 }

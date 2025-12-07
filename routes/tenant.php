@@ -6,6 +6,7 @@ use App\Http\Controllers\Tenant\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Tenant\Auth\NewPasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
+use App\Http\Controllers\Tenant\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -62,9 +63,8 @@ Route::middleware([
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('tenant.logout');
 
-        Route::get('/dashboard', function () {
-            return inertia('Tenant/Dashboard');
-        })->name('tenant.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('tenant.dashboard');
 
         // Placeholder routes for navigation (will be implemented in next phases)
         Route::get('/projects', function () {
