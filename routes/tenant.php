@@ -7,6 +7,7 @@ use App\Http\Controllers\Tenant\Auth\NewPasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
 use App\Http\Controllers\Tenant\DashboardController;
+use App\Http\Controllers\Tenant\ProfileController;
 use App\Http\Controllers\Tenant\ProjectController;
 use App\Http\Controllers\Tenant\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -41,23 +42,28 @@ Route::middleware([
 
     // Guest routes
     Route::middleware('guest')->group(function () {
-        Route::get('login', [AuthenticatedSessionController::class, 'create'])
-            ->name('tenant.login');
-        Route::post('login', [AuthenticatedSessionController::class, 'store']);
+        // Login
+        Route::controller(AuthenticatedSessionController::class)->group(function () {
+            Route::get('login', 'create')->name('tenant.login');
+            Route::post('login', 'store');
+        });
 
-        Route::get('register', [RegisteredUserController::class, 'create'])
-            ->name('tenant.register');
-        Route::post('register', [RegisteredUserController::class, 'store']);
+        // Register
+        Route::controller(RegisteredUserController::class)->group(function () {
+            Route::get('register', 'create')->name('tenant.register');
+            Route::post('register', 'store');
+        });
 
-        Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-            ->name('tenant.password.request');
-        Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-            ->name('tenant.password.email');
+        // Password Reset
+        Route::controller(PasswordResetLinkController::class)->group(function () {
+            Route::get('forgot-password', 'create')->name('tenant.password.request');
+            Route::post('forgot-password', 'store')->name('tenant.password.email');
+        });
 
-        Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-            ->name('tenant.password.reset');
-        Route::post('reset-password', [NewPasswordController::class, 'store'])
-            ->name('tenant.password.store');
+        Route::controller(NewPasswordController::class)->group(function () {
+            Route::get('reset-password/{token}', 'create')->name('tenant.password.reset');
+            Route::post('reset-password', 'store')->name('tenant.password.store');
+        });
     });
 
     // Authenticated routes
@@ -69,33 +75,30 @@ Route::middleware([
             ->name('tenant.dashboard');
 
         // Users - Index accessible to all, CRUD restricted to tenant admins
-        Route::get('/users', [UserController::class, 'index'])
-            ->name('tenant.users.index');
-
-        Route::middleware('tenant.admin')->group(function () {
-            Route::post('/users', [UserController::class, 'store'])
-                ->name('tenant.users.store');
-            Route::put('/users/{user}', [UserController::class, 'update'])
-                ->name('tenant.users.update');
-            Route::delete('/users/{user}', [UserController::class, 'destroy'])
-                ->name('tenant.users.destroy');
-        });
+        Route::controller(UserController::class)
+            ->prefix('users')
+            ->name('tenant.users.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::middleware('tenant.admin')->group(function () {
+                    Route::post('/', 'store')->name('store');
+                    Route::put('/{user}', 'update')->name('update');
+                    Route::delete('/{user}', 'destroy')->name('destroy');
+                });
+            });
 
         // Projects - Full CRUD for all authenticated users
         Route::resource('projects', ProjectController::class)
-            ->names([
-                'index' => 'tenant.projects.index',
-                'create' => 'tenant.projects.create',
-                'store' => 'tenant.projects.store',
-                'show' => 'tenant.projects.show',
-                'edit' => 'tenant.projects.edit',
-                'update' => 'tenant.projects.update',
-                'destroy' => 'tenant.projects.destroy',
-            ]);
+            ->names('tenant.projects');
 
-        // Placeholder routes for navigation (will be implemented in next phases)
-        Route::get('/profile', function () {
-            return inertia('Tenant/Profile/Edit');
-        })->name('tenant.profile.edit');
+        // Profile
+        Route::controller(ProfileController::class)
+            ->prefix('profile')
+            ->name('tenant.profile.')
+            ->group(function () {
+                Route::get('/', 'edit')->name('edit');
+                Route::patch('/', 'update')->name('update');
+                Route::put('/password', 'updatePassword')->name('password');
+            });
     });
 });
