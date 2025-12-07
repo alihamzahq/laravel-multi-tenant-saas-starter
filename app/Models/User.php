@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,6 +13,14 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    /**
+     * Available tenant user roles.
+     */
+    public const ROLES = [
+        'admin' => 'Admin',
+        'user' => 'User',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +32,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'role',
     ];
 
     /**
@@ -50,10 +60,36 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if the user is an admin.
+     * Check if the user is a central admin (for admin panel access).
      */
     public function isAdmin(): bool
     {
         return $this->is_admin === true;
+    }
+
+    /**
+     * Check if the user is a tenant admin (for tenant app access).
+     * Used in tenant context where 'role' column exists.
+     */
+    public function isTenantAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if the user has a specific role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Get the projects created by this user.
+     * Only available in tenant context.
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'created_by');
     }
 }
