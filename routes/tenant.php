@@ -7,6 +7,7 @@ use App\Http\Controllers\Tenant\Auth\NewPasswordController;
 use App\Http\Controllers\Tenant\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Tenant\Auth\RegisteredUserController;
 use App\Http\Controllers\Tenant\DashboardController;
+use App\Http\Controllers\Tenant\ProjectController;
 use App\Http\Controllers\Tenant\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -80,11 +81,19 @@ Route::middleware([
                 ->name('tenant.users.destroy');
         });
 
-        // Placeholder routes for navigation (will be implemented in next phases)
-        Route::get('/projects', function () {
-            return inertia('Tenant/Projects/Index');
-        })->name('tenant.projects.index');
+        // Projects - Full CRUD for all authenticated users
+        Route::resource('projects', ProjectController::class)
+            ->names([
+                'index' => 'tenant.projects.index',
+                'create' => 'tenant.projects.create',
+                'store' => 'tenant.projects.store',
+                'show' => 'tenant.projects.show',
+                'edit' => 'tenant.projects.edit',
+                'update' => 'tenant.projects.update',
+                'destroy' => 'tenant.projects.destroy',
+            ]);
 
+        // Placeholder routes for navigation (will be implemented in next phases)
         Route::get('/profile', function () {
             return inertia('Tenant/Profile/Edit');
         })->name('tenant.profile.edit');
