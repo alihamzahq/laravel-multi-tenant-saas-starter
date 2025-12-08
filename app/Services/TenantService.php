@@ -20,15 +20,19 @@ class TenantService
      */
     public function createTenant(array $data): Tenant
     {
+        // Build full domain from subdomain + app domain
+        $subdomain = $data['domain'];
+        $fullDomain = $subdomain . '.' . config('app.domain');
+
         $tenant = Tenant::create([
-            'id' => $data['domain'],
+            'id' => $subdomain,
             'name' => $data['name'],
             'admin_email' => $data['admin_email'],
             'is_active' => $data['is_active'] ?? true,
         ]);
 
         $tenant->domains()->create([
-            'domain' => $data['domain'],
+            'domain' => $fullDomain,
         ]);
 
         return $tenant->load('domains');

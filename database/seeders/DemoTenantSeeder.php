@@ -34,14 +34,25 @@ class DemoTenantSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // Create domain (subdomain only, not full domain)
+        // Create domain (full domain)
+        $fullDomain = 'demo.' . config('app.domain');
         $tenant->domains()->create([
-            'domain' => 'demo',
+            'domain' => $fullDomain,
         ]);
 
+        $this->command->info('');
         $this->command->info('Demo tenant created successfully!');
-        $this->command->info('  Domain: demo.' . config('app.domain'));
-        $this->command->info('  Email: admin@demo.com');
-        $this->command->info('  Password: password');
+        $this->command->info('');
+        $this->command->info('  URL: https://demo.' . config('app.domain'));
+        $this->command->info('');
+        $this->command->info('  Demo Users:');
+        $this->command->info('  ┌────────────────────┬───────────────────┬──────────┐');
+        $this->command->info('  │ Email              │ Role              │ Password │');
+        $this->command->info('  ├────────────────────┼───────────────────┼──────────┤');
+        $this->command->info('  │ admin@demo.com     │ Admin             │ password │');
+        $this->command->info('  │ john@demo.com      │ User              │ password │');
+        $this->command->info('  │ jane@demo.com      │ User              │ password │');
+        $this->command->info('  └────────────────────┴───────────────────┴──────────┘');
+        $this->command->info('');
     }
 }
