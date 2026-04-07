@@ -1,21 +1,38 @@
 # Laravel Multi-Tenant SaaS Starter Kit
 
-A portfolio-grade, production-inspired multi-tenant SaaS starter kit built with Laravel 12, React, Inertia.js, and Tailwind CSS. Features complete tenant isolation with separate databases, a central admin panel, and comprehensive API support.
-
-## Purpose
-
-This project was created as a portfolio-grade SaaS starter kit to demonstrate:
-- Multi-tenant architecture design
-- Clean separation of central and tenant logic
-- Scalable API structure
-- Real-world SaaS patterns (auth, roles, isolation)
-
-It is not a commercial product, but a learning and demonstration project.
+A production-inspired multi-tenant SaaS starter kit built with **Laravel 12**, **React 18**, **Inertia.js**, and **Tailwind CSS**. Features complete tenant isolation with separate databases, a central admin panel, and RESTful API support.
 
 [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react)](https://reactjs.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+
+## Screenshots
+
+### Landing Page
+
+![Landing page with hero section and feature overview](screenshots/01-landing-hero.png)
+![Demo credentials and footer](screenshots/02-landing-credentials.png)
+
+### Central Admin Panel
+
+![Admin dashboard with tenant statistics](screenshots/03-admin-dashboard.png)
+
+![Tenant management list with status badges and actions](screenshots/04-admin-tenants-list.png)
+
+![Tenant detail view with management controls](screenshots/05-admin-tenant-detail.png)
+
+![Create new tenant with subdomain builder](screenshots/06-admin-create-tenant.png)
+
+### Tenant Application
+
+![Tenant dashboard with project and user stats](screenshots/07-tenant-dashboard.png)
+
+![Projects list with status workflow and CRUD actions](screenshots/08-tenant-projects.png)
+
+![Project detail view](screenshots/09-tenant-project-detail.png)
+
+![User management with role-based access control](screenshots/10-tenant-users.png)
 
 ## Features
 
@@ -26,30 +43,21 @@ It is not a commercial product, but a learning and demonstration project.
 - **Tenant-Aware Caching, Queues & Storage** - All Laravel features properly scoped
 
 ### Central Admin Panel
-- Super admin authentication
-- Tenant management (CRUD operations)
-- Activate/deactivate tenants
-- Login as tenant (impersonation)
+- Tenant management (CRUD, activate/deactivate)
+- Login as tenant (impersonation with signed URLs)
 - Dashboard with tenant statistics
 
 ### Tenant Application
 - User authentication (login, register, password reset)
 - Role-based access control (Admin & User roles)
 - User management (tenant admins only)
-- Project management (CRUD with status workflow)
-- Profile management with password update
+- Project management (CRUD with status workflow: draft, active, completed, archived)
 
 ### API-Ready Architecture
 - RESTful API with Laravel Sanctum authentication
 - Central API for tenant management
 - Tenant API for projects and users
-- Consistent JSON response format
-
-This project includes a clean REST API structure, demonstrating:
-- Controllers with single responsibility
-- Service classes for business logic
-- Resource transformers for API responses
-- Central vs tenant API separation
+- Service classes for business logic with resource transformers
 
 ### Tech Stack
 - **Backend:** Laravel 12, PHP 8.4+
@@ -57,7 +65,7 @@ This project includes a clean REST API structure, demonstrating:
 - **Styling:** Tailwind CSS
 - **Database:** MySQL/PostgreSQL/SQLite (separate tenant databases)
 - **Multi-Tenancy:** Stancl Tenancy (database-per-tenant)
-- **Authentication:** Laravel Breeze (web) + Sanctum (API-ready)
+- **Authentication:** Laravel Breeze (web) + Sanctum (API)
 - **Cache/Queue:** Redis-ready
 
 ## Quick Start
