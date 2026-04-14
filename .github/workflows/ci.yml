@@ -27,9 +27,17 @@ jobs:
         run: cp .env.example .env
 
       - name: Generate application key
+        env:
+          SESSION_DRIVER: array
+          CACHE_STORE: array
+          QUEUE_CONNECTION: sync
         run: php artisan key:generate
 
       - name: Run tests
+        env:
+          SESSION_DRIVER: array
+          CACHE_STORE: array
+          QUEUE_CONNECTION: sync
         run: php artisan test
 
   code-style:
