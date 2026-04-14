@@ -7,12 +7,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use App\Models\User;
 
 /**
  * Central API Authentication Controller.
@@ -26,8 +25,6 @@ class AuthController extends Controller
     /**
      * Login and create a new API token.
      *
-     * @param  Request  $request
-     * @return JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -65,9 +62,6 @@ class AuthController extends Controller
 
     /**
      * Get the authenticated user.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function user(Request $request): JsonResponse
     {
@@ -79,9 +73,6 @@ class AuthController extends Controller
 
     /**
      * Logout and revoke the current token.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function logout(Request $request): JsonResponse
     {

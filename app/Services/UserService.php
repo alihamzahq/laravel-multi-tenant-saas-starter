@@ -12,7 +12,7 @@ class UserService
     /**
      * Create a new user.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createUser(array $data): User
     {
@@ -27,7 +27,7 @@ class UserService
     /**
      * Update an existing user.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateUser(User $user, array $data): User
     {

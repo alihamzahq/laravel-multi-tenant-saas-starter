@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', Password::defaults()],
-            'role' => ['required', 'string', 'in:' . implode(',', array_keys(User::ROLES))],
+            'role' => ['required', 'string', 'in:'.implode(',', array_keys(User::ROLES))],
         ];
     }
 
@@ -41,7 +41,7 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'role.in' => 'The selected role is invalid. Valid roles are: ' . implode(', ', array_keys(User::ROLES)),
+            'role.in' => 'The selected role is invalid. Valid roles are: '.implode(', ', array_keys(User::ROLES)),
         ];
     }
 }

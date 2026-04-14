@@ -35,7 +35,7 @@ class DemoTenantSeeder extends Seeder
         ]);
 
         // Create domain (full domain)
-        $fullDomain = 'demo.' . config('app.domain');
+        $fullDomain = 'demo.'.config('app.domain');
         $tenant->domains()->create([
             'domain' => $fullDomain,
         ]);
@@ -43,7 +43,7 @@ class DemoTenantSeeder extends Seeder
         $this->command->info('');
         $this->command->info('Demo tenant created successfully!');
         $this->command->info('');
-        $this->command->info('  URL: https://demo.' . config('app.domain'));
+        $this->command->info('  URL: https://demo.'.config('app.domain'));
         $this->command->info('');
         $this->command->info('  Demo Users:');
         $this->command->info('  ┌────────────────────┬───────────────────┬──────────┐');

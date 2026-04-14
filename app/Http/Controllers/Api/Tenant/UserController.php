@@ -26,8 +26,6 @@ class UserController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @param  UserService  $userService
      */
     public function __construct(
         private UserService $userService
@@ -35,8 +33,6 @@ class UserController extends Controller
 
     /**
      * Display a listing of users.
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -50,9 +46,6 @@ class UserController extends Controller
 
     /**
      * Store a newly created user.
-     *
-     * @param  StoreUserRequest  $request
-     * @return JsonResponse
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
@@ -66,9 +59,6 @@ class UserController extends Controller
 
     /**
      * Display the specified user.
-     *
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
@@ -82,10 +72,6 @@ class UserController extends Controller
 
     /**
      * Update the specified user.
-     *
-     * @param  UpdateUserRequest  $request
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
@@ -100,10 +86,6 @@ class UserController extends Controller
 
     /**
      * Remove the specified user.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $id): JsonResponse
     {

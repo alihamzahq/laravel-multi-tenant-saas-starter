@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Tenant;
+use Illuminate\Database\Seeder;
 
 class TenantSeeder extends Seeder
 {
@@ -11,7 +11,7 @@ class TenantSeeder extends Seeder
     {
         $tenant = Tenant::create([
             'id' => 'company1',
-            'data' => ['name' => 'Company 1']
+            'data' => ['name' => 'Company 1'],
         ]);
         $tenant->domains()->create(['domain' => 'company1.localhost']);
     }

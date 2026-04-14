@@ -43,7 +43,7 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($userId),
             ],
             'password' => ['nullable', 'string', Password::defaults()],
-            'role' => ['required', 'string', 'in:' . implode(',', array_keys(User::ROLES))],
+            'role' => ['required', 'string', 'in:'.implode(',', array_keys(User::ROLES))],
         ];
     }
 
@@ -55,7 +55,7 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'role.in' => 'The selected role is invalid. Valid roles are: ' . implode(', ', array_keys(User::ROLES)),
+            'role.in' => 'The selected role is invalid. Valid roles are: '.implode(', ', array_keys(User::ROLES)),
         ];
     }
 }

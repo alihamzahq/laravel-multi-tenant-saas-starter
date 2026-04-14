@@ -38,6 +38,7 @@ Route::middleware([
         if (Auth::check()) {
             return redirect()->route('tenant.dashboard');
         }
+
         return redirect()->route('tenant.login');
     });
 

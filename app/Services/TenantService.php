@@ -16,13 +16,13 @@ class TenantService
      * fires events that trigger jobs (CreateDatabase, etc.) which manage
      * their own transactions.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createTenant(array $data): Tenant
     {
         // Build full domain from subdomain + app domain
         $subdomain = $data['domain'];
-        $fullDomain = $subdomain . '.' . config('app.domain');
+        $fullDomain = $subdomain.'.'.config('app.domain');
 
         $tenant = Tenant::create([
             'id' => $subdomain,
@@ -41,7 +41,7 @@ class TenantService
     /**
      * Update an existing tenant.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateTenant(Tenant $tenant, array $data): Tenant
     {
@@ -90,7 +90,7 @@ class TenantService
         $counter = 1;
 
         while (Tenant::where('id', $id)->exists()) {
-            $id = $baseId . '-' . $counter;
+            $id = $baseId.'-'.$counter;
             $counter++;
         }
 

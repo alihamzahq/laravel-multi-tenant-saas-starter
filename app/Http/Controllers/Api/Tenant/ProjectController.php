@@ -25,8 +25,6 @@ class ProjectController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @param  ProjectService  $projectService
      */
     public function __construct(
         private ProjectService $projectService
@@ -34,9 +32,6 @@ class ProjectController extends Controller
 
     /**
      * Display a listing of projects.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -52,9 +47,6 @@ class ProjectController extends Controller
 
     /**
      * Store a newly created project.
-     *
-     * @param  StoreProjectRequest  $request
-     * @return JsonResponse
      */
     public function store(StoreProjectRequest $request): JsonResponse
     {
@@ -73,9 +65,6 @@ class ProjectController extends Controller
 
     /**
      * Display the specified project.
-     *
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
@@ -89,10 +78,6 @@ class ProjectController extends Controller
 
     /**
      * Update the specified project.
-     *
-     * @param  UpdateProjectRequest  $request
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function update(UpdateProjectRequest $request, int $id): JsonResponse
     {
@@ -114,10 +99,6 @@ class ProjectController extends Controller
 
     /**
      * Remove the specified project.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $id): JsonResponse
     {

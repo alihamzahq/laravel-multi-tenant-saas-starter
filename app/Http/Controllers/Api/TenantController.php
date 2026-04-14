@@ -24,8 +24,6 @@ class TenantController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @param  TenantService  $tenantService
      */
     public function __construct(
         private TenantService $tenantService
@@ -33,8 +31,6 @@ class TenantController extends Controller
 
     /**
      * Display a listing of tenants.
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -50,9 +46,6 @@ class TenantController extends Controller
 
     /**
      * Store a newly created tenant.
-     *
-     * @param  StoreTenantRequest  $request
-     * @return JsonResponse
      */
     public function store(StoreTenantRequest $request): JsonResponse
     {
@@ -66,9 +59,6 @@ class TenantController extends Controller
 
     /**
      * Display the specified tenant.
-     *
-     * @param  Tenant  $tenant
-     * @return JsonResponse
      */
     public function show(Tenant $tenant): JsonResponse
     {
@@ -82,10 +72,6 @@ class TenantController extends Controller
 
     /**
      * Update the specified tenant.
-     *
-     * @param  UpdateTenantRequest  $request
-     * @param  Tenant  $tenant
-     * @return JsonResponse
      */
     public function update(UpdateTenantRequest $request, Tenant $tenant): JsonResponse
     {
@@ -99,9 +85,6 @@ class TenantController extends Controller
 
     /**
      * Remove the specified tenant.
-     *
-     * @param  Tenant  $tenant
-     * @return JsonResponse
      */
     public function destroy(Tenant $tenant): JsonResponse
     {
@@ -112,9 +95,6 @@ class TenantController extends Controller
 
     /**
      * Toggle tenant active status.
-     *
-     * @param  Tenant  $tenant
-     * @return JsonResponse
      */
     public function toggleStatus(Tenant $tenant): JsonResponse
     {

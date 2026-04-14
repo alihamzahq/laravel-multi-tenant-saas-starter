@@ -22,7 +22,7 @@ class ImpersonationService
         $expiry = now()->addMinutes(self::TOKEN_EXPIRY_MINUTES)->timestamp;
         $payload = "{$tenant->id}|{$expiry}";
 
-        return base64_encode($payload) . '.' . $this->hash($payload);
+        return base64_encode($payload).'.'.$this->hash($payload);
     }
 
     /**
@@ -107,7 +107,7 @@ class ImpersonationService
 
         $protocol = request()->secure() ? 'https' : 'http';
 
-        return "{$protocol}://{$domain}/impersonate?" . http_build_query([
+        return "{$protocol}://{$domain}/impersonate?".http_build_query([
             'token' => $token,
             'signature' => $signature,
         ]);

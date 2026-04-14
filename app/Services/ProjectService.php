@@ -11,7 +11,7 @@ class ProjectService
     /**
      * Create a new project.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createProject(array $data, int $createdBy): Project
     {
@@ -26,7 +26,7 @@ class ProjectService
     /**
      * Update an existing project.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateProject(Project $project, array $data): Project
     {

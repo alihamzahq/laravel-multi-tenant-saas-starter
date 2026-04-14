@@ -26,8 +26,6 @@ class AuthController extends Controller
     /**
      * Login and create a new API token.
      *
-     * @param  Request  $request
-     * @return JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -59,8 +57,6 @@ class AuthController extends Controller
     /**
      * Register a new user and create an API token.
      *
-     * @param  Request  $request
-     * @return JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -91,9 +87,6 @@ class AuthController extends Controller
 
     /**
      * Get the authenticated user.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function user(Request $request): JsonResponse
     {
@@ -105,9 +98,6 @@ class AuthController extends Controller
 
     /**
      * Logout and revoke the current token.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function logout(Request $request): JsonResponse
     {
