@@ -2,10 +2,12 @@
 
 A production-inspired multi-tenant SaaS starter kit built with **Laravel 12**, **React 18**, **Inertia.js**, and **Tailwind CSS**. Features complete tenant isolation with separate databases, a central admin panel, and RESTful API support.
 
-[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
-[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react)](https://reactjs.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+![CI](https://github.com/alihamzahq/laravel-multi-tenant-saas-starter/actions/workflows/ci.yml/badge.svg)
+![PHP](https://img.shields.io/badge/PHP-8.4+-777BB4?style=flat-square&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ## Screenshots
 
