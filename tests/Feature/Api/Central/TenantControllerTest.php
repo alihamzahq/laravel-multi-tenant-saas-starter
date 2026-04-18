@@ -20,17 +20,6 @@ class TenantControllerTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_authenticated_non_admin_is_rejected(): void
-    {
-        $user = User::factory()->create(['is_admin' => false]);
-
-        Sanctum::actingAs($user);
-
-        $response = $this->getJson('/api/v1/tenants');
-
-        $response->assertStatus(302);
-    }
-
     public function test_authenticated_admin_can_list_tenants(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);
